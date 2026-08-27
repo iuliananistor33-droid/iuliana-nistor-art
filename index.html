@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iulia Nistor Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF; --ink:#1A1A18; --ink-soft:#6B6862; --line:#E6E2D8;
+    --accent:#A9613D; --wash:#F6F4EE;
+    --display:'Cormorant Garamond', serif; --body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:var(--body); line-height:1.5;}
+  img{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; background:none; border:none;}
+  input, textarea{font-family:inherit; font-size:14px;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  .announce{background:var(--ink); color:var(--bg); text-align:center; font-size:12px; letter-spacing:.08em; padding:9px 0; text-transform:uppercase;}
+
+  header{border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:30;}
+  nav{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:20px 0;}
+  .navlinks{display:flex; gap:26px; list-style:none; font-size:12px; letter-spacing:.08em; text-transform:uppercase;}
+  .navlinks a{border-bottom:1px solid transparent; padding-bottom:3px; transition:border-color .2s; cursor:pointer;}
+  .navlinks a:hover, .navlinks a.active{border-color:var(--ink);}
+  .nav-toggle{justify-self:start; display:none; align-items:center;}
+  .logo-badge-link{justify-self:center; display:block;}
+  .logo-badge-img{height:74px; width:auto; display:block;}
+  .logo-badge-letter{position:absolute; top:0; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; font-size:28px; color:var(--ink);}
+  .navicons{justify-self:end; display:flex; gap:20px; align-items:center;}
+  .navicons svg{width:19px; height:19px; stroke:var(--ink); fill:none; stroke-width:1.4;}
+  .mobile-panel{display:none; position:absolute; left:0; right:0; top:100%; background:var(--bg); border-bottom:1px solid var(--line); padding:6px 32px; flex-direction:column;}
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--line); font-size:19px; font-family:var(--display); cursor:pointer;}
+
+  .search-panel{display:none; position:absolute; left:0; right:0; top:100%; background:var(--bg); border-bottom:1px solid var(--line); padding:18px 32px; z-index:25; max-height:70vh; overflow-y:auto;}
+  .search-panel.open{display:block;}
+  .search-input{width:100%; border:none; border-bottom:1px solid var(--ink); background:transparent; padding:10px 2px; font-size:16px; font-family:var(--display); color:var(--ink); outline:none;}
+  .search-results{margin-top:14px; display:flex; flex-direction:column; gap:2px;}
+  .search-result{display:flex; align-items:center; gap:12px; padding:10px 4px; cursor:pointer; border-bottom:1px solid var(--line);}
+  .search-result:hover{background:var(--wash);}
+  .search-result-img{width:44px; height:44px; flex:none; background-size:cover;}
+  .search-result-text{display:flex; flex-direction:column;}
+  .search-result-title{font-family:var(--display); font-size:15px;}
+  .search-result-meta{font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em;}
+  .search-empty{font-size:13px; color:var(--ink-soft); padding:10px 4px;}
+
+  main{min-height:60vh;}
+
+  .eyebrow{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px;}
+  .page-head{padding:64px 0 8px;}
+  .page-head h1{font-family:var(--display); font-weight:400; font-size:48px;}
+  .page-sub{color:var(--ink-soft); font-size:15px; max-width:56ch; margin-top:12px;}
+  .back-link{display:inline-flex; align-items:center; gap:6px; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); margin:32px 0 0; cursor:pointer;}
+  .back-link:hover{color:var(--ink);}
+
+  /* hero (home) */
+  .hero{position:relative; width:100%; overflow:hidden; background:linear-gradient(120deg,#5C6446 0%,#7A6A4E 45%,#3F3327 100%);}
+  .hero img{display:block; width:100%; height:auto;}
+  .hero::before{content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(20,17,12,0.5) 0%, rgba(20,17,12,0.15) 55%); z-index:1;}
+  .hero-content{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; max-width:520px; margin:0 auto; color:#FFFFFF; z-index:2; text-align:center;}
+  h1.headline{font-family:var(--display); font-weight:400; font-size:clamp(36px,5.2vw,58px); line-height:1.1;}
+  .hero-sub{font-family:var(--display); font-style:italic; font-weight:500; font-size:19px; line-height:1.5; margin:16px auto 0; max-width:46ch; color:#FFFFFF; text-shadow:0 1px 10px rgba(0,0,0,.3);}
+  .hero-tagline{font-family:var(--display); font-style:italic; font-weight:500; font-size:26px; margin-bottom:22px; color:#FFFFFF; text-shadow:0 1px 10px rgba(0,0,0,.35);}
+
+  .feature-collection{padding:76px 0; text-align:center;}
+  .feature-collection.alt{border-top:1px solid var(--line);}
+  .feature-collection h2{font-family:var(--display); font-weight:400; font-size:38px; margin-bottom:10px;}
+  .feature-collection p{color:var(--ink-soft); font-size:15px; max-width:48ch; margin:0 auto;}
+  .feature-img{aspect-ratio:4/5; max-width:440px; margin:36px auto; overflow:hidden;}
+  .feature-img img{width:100%; height:100%; object-fit:cover;}
+  .feature-btn{display:inline-block; background:var(--ink); color:#FFFFFF; padding:15px 34px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; transition:background .2s;}
+  .feature-btn:hover{background:var(--accent);}
+  .hero-cta{margin-top:26px; display:inline-block; border:1px solid #FBF9F4; padding:13px 34px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; transition:background .2s, color .2s;}
+  .hero-cta:hover{background:#FBF9F4; color:var(--ink);}
+  .hero-name{font-family:var(--display); font-weight:400; text-transform:uppercase; letter-spacing:.04em; font-size:clamp(32px,5.4vw,56px);}
+  .hero-buttons{margin-top:28px; display:flex; flex-direction:column; gap:12px; max-width:220px; margin-left:auto; margin-right:auto;}
+  .hero-pill{display:block; text-align:center; border:1px solid rgba(255,255,255,.8); border-radius:999px; padding:11px; font-size:12.5px; letter-spacing:.03em; color:#FFFFFF; transition:background .2s, color .2s;}
+  .hero-pill:hover{background:#FFFFFF; color:var(--ink);}
+
+  /* tiles (home + originals landing) */
+  .tiles{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; padding:72px 0;}
+  .tiles.tiles-2{grid-template-columns:repeat(2,1fr); max-width:760px; margin:0 auto; gap:32px;}
+  .tiles.tiles-2 .tile-name{font-size:24px;}
+  .tile{cursor:pointer;}
+  .tile-img{aspect-ratio:4/5; margin-bottom:14px;}
+  .tile-name{font-family:var(--display); font-size:20px;}
+  .tile-sub{font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; margin-top:2px;}
+
+  /* product grid */
+  .row{display:grid; grid-template-columns:repeat(4,1fr); gap:28px; padding:36px 0 80px;}
+  .also-like{border-top:1px solid var(--line); padding-top:56px; margin-top:20px;}
+  .also-like-heading{font-family:var(--display); font-weight:400; font-size:28px; margin-bottom:8px;}
+  .also-like-row{padding-top:20px;}
+  .piece{cursor:pointer;}
+  .piece-img{aspect-ratio:1/1; background-size:cover; margin-bottom:14px; position:relative;}
+  .piece-badge{position:absolute; left:10px; bottom:10px; background:var(--ink); color:var(--bg); font-size:10px; letter-spacing:.06em; text-transform:uppercase; padding:5px 10px;}
+  .piece-title{font-family:var(--display); font-size:19px; margin-bottom:2px;}
+  .piece-meta{font-size:11px; color:var(--ink-soft); letter-spacing:.03em; margin-bottom:6px; text-transform:uppercase;}
+  .piece-price{font-size:13px; font-weight:500;}
+
+  .g1{background:linear-gradient(150deg,#6B5B41 0%,#B5673E 60%,#EFE6D3 100%);}
+  .g2{background:linear-gradient(160deg,#3F4A34 0%,#8A9068 55%,#EFE6D3 100%);}
+  .g3{background:linear-gradient(140deg,#8A4B33 0%,#C98354 55%,#F1E6D0 100%);}
+  .g4{background:linear-gradient(155deg,#4B4030 0%,#A9613D 60%,#EFE0C8 100%);}
+  .g5{background:linear-gradient(150deg,#5C6446 0%,#B7B08C 55%,#F3EEDD 100%);}
+  .g6{background:linear-gradient(160deg,#3F3327 0%,#8A6A4E 55%,#EFE6D3 100%);}
+  .g7{background:linear-gradient(140deg,#7A5230 0%,#D8A56B 55%,#F6EEDD 100%);}
+  .g8{background:linear-gradient(150deg,#5C4632 0%,#B58A5E 55%,#F1E8D6 100%);}
+  .g9{background:linear-gradient(145deg,#2C5F7C 0%,#7FA6B8 55%,#EFEAE1 100%);}
+  .g10{background:linear-gradient(150deg,#7C2C2C 0%,#C1432A 55%,#EDCBA0 100%);}
+  .g11{background:linear-gradient(160deg,#333 0%,#777 55%,#EEE 100%);}
+  .g12{background:linear-gradient(150deg,#4A5A3E 0%,#9AA97B 55%,#EFEAD8 100%);}
+
+  /* product detail */
+  .product{display:grid; grid-template-columns:1fr 1fr; gap:56px; padding:28px 0 40px;}
+  .slideshow{position:relative; aspect-ratio:4/5;}
+
+  .new-collection{padding:76px 0; text-align:center;}
+  .new-collection .eyebrow{margin-bottom:2px;}
+  .new-collection h2{font-family:var(--display); font-weight:400; font-size:28px; margin-bottom:32px;}
+
+  .event-banner{background:var(--ink); color:#FFFFFF; padding:44px 0;}
+  .event-banner-inner{display:flex; align-items:center; gap:32px;}
+  .event-date{flex:none; border:1px solid rgba(255,255,255,.4); padding:14px 20px; text-align:center; min-width:96px;}
+  .event-day{display:block; font-family:var(--display); font-size:30px; line-height:1;}
+  .event-month{display:block; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.7); margin-top:4px;}
+  .event-text .eyebrow{color:rgba(255,255,255,.65); margin-bottom:6px;}
+  .event-text h2{font-family:var(--display); font-weight:400; font-size:24px; margin-bottom:6px;}
+  .event-text p{font-size:13px; color:rgba(255,255,255,.75); max-width:52ch;}
+  .collection-slideshow{position:relative; aspect-ratio:16/9; max-width:760px; margin:0 auto 32px;}
+  .slide{position:absolute; inset:0; opacity:0; transition:opacity .3s ease;}
+  .slide.active{opacity:1;}
+  .slide-nav{position:absolute; bottom:16px; left:0; right:0; display:flex; align-items:center; justify-content:center; gap:16px;}
+  .slide-btn{width:32px; height:32px; border:1px solid rgba(255,255,255,.7); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;}
+  .slide-btn svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.6;}
+  .slide-count{font-size:12px; color:#fff; background:rgba(0,0,0,.35); padding:4px 10px; border-radius:12px;}
+
+  .product-info .eyebrow{margin-bottom:4px;}
+  .product-title{font-family:var(--display); font-weight:400; font-size:32px; margin-bottom:10px;}
+  .product-price{font-size:16px; font-weight:500; margin-bottom:4px;}
+  .product-shipnote{font-size:12px; color:var(--ink-soft); margin-bottom:24px;}
+  .product-shipnote a{text-decoration:underline;}
+  .one-item-note{font-size:12px; color:var(--ink); background:var(--wash); border:1px solid var(--line); padding:12px 14px; line-height:1.6; margin-top:20px;}
+  .buy-btn{display:flex; align-items:center; justify-content:center; gap:8px; width:100%; background:var(--ink); color:var(--bg); text-align:center; padding:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:10px; transition:background .2s;}
+  .buy-btn:hover{background:var(--accent);}
+  .buy-note{font-size:11px; color:var(--ink-soft); text-align:center; margin-bottom:28px;}
+
+  .product-icons{display:flex; justify-content:space-between; gap:12px; padding:22px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:22px;}
+
+  .print-option{margin-bottom:18px;}
+  .print-option label{display:block; font-size:12px; color:var(--ink-soft); margin-bottom:8px;}
+  .print-select{width:100%; border:1px solid var(--ink); background:var(--bg); padding:12px 14px; font-size:14px; color:var(--ink); font-family:inherit;}
+  .embellish-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .info-link{display:inline-block; margin-top:10px; font-size:11px; text-decoration:underline; color:var(--ink-soft);}
+  .info-link:hover{color:var(--ink);}
+  .embellish-swatch{display:flex; align-items:center; gap:8px; border:1px solid var(--line); padding:8px 14px; font-size:12px; color:var(--ink-soft); background:none;}
+  .embellish-swatch.active{border-color:var(--ink); color:var(--ink);}
+  .product-icon{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center; color:var(--ink-soft); font-size:10px; line-height:1.3;}
+  .product-icon svg{width:17px; height:17px; color:var(--ink);}
+  .sold-btn{display:block; width:100%; border:1px solid var(--line); color:var(--ink-soft); text-align:center; padding:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:28px;}
+  .product-desc{font-size:14px; color:var(--ink-soft); margin-bottom:20px; white-space:pre-line;}
+  .product-bullets{list-style:none; padding:0; margin-bottom:20px; font-size:13px; color:var(--ink-soft);}
+  .product-bullets li{padding-left:16px; position:relative; margin-bottom:8px;}
+  .product-bullets li::before{content:'\2014'; position:absolute; left:0; color:var(--ink-soft);}
+  .product-policy-note{font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:20px;}
+  .product-policy{font-size:12.5px; color:var(--ink-soft); line-height:1.7; margin-bottom:20px;}
+  .product-policy p{margin-bottom:12px;}
+  .product-meta{border-top:1px solid var(--line); padding-top:18px; font-size:13px; color:var(--ink-soft); display:grid; gap:8px;}
+  .product-meta span{color:var(--ink);}
+
+  /* contact */
+  .form{max-width:560px; padding:36px 0 90px; display:grid; gap:14px;}
+  .form input, .form textarea{width:100%; border:1px solid var(--ink); padding:14px; background:transparent; color:var(--ink);}
+  .form textarea{min-height:120px; resize:vertical;}
+  .form button{background:var(--ink); color:var(--bg); padding:15px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; margin-top:6px;}
+  .form button:hover{background:var(--accent);}
+  .form-note{font-size:12px; color:var(--ink-soft);}
+
+  /* faq */
+  .faq-list{max-width:720px; padding:20px 0 90px;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item summary{padding:20px 0; font-family:var(--display); font-size:19px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:'+'; font-size:20px; color:var(--ink-soft);}
+  .faq-item[open] summary::after{content:'\2212';}
+  .faq-item p{padding-bottom:20px; color:var(--ink-soft); font-size:14px; max-width:60ch;}
+
+  /* about page */
+  .about-photo{width:100%; height:auto; display:block;}
+  .about-body{max-width:640px; margin:0 auto; padding:28px 32px 100px; text-align:left;}
+  .about-heading{font-family:var(--display); font-weight:400; letter-spacing:.08em; text-transform:uppercase; font-size:26px; margin-bottom:26px;}
+  .about-body p{color:var(--ink-soft); font-size:15px; margin-bottom:20px; max-width:60ch;}
+
+  footer{border-top:1px solid var(--line); padding:44px 0; font-size:12px; color:var(--ink-soft);}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; align-items:center;}
+  .foot-links{display:flex; gap:20px;}
+  .foot-links a:hover{color:var(--ink);}
+
+  .toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--bg); font-size:12px; padding:12px 20px; opacity:0; transition:opacity .3s, transform .3s; pointer-events:none; z-index:50; max-width:90vw; text-align:center;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:900px){
+    .navlinks{display:none;} .nav-toggle{display:block;}
+    .tiles{grid-template-columns:repeat(2,1fr);} .row{grid-template-columns:repeat(2,1fr);}
+    .product{grid-template-columns:1fr; gap:8px;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 20px;}
+    .logo-badge-img{height:52px;}
+    .tiles{grid-template-columns:repeat(2,1fr);}
+    .row{grid-template-columns:repeat(2,1fr); gap:16px;}
+    .piece-img{aspect-ratio:1/1;}
+    .page-head h1{font-size:36px;}
+    .hero-name{font-size:30px;}
+    .hero-sub{font-size:18px;}
+    .new-collection{padding-top:28px;}
+    .event-banner-inner{flex-direction:column; text-align:center; gap:18px;}
+    .new-collection h2{margin-bottom:28px;}
+    .new-collection .feature-btn{margin-bottom:28px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap" style="position:relative;">
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><svg viewBox="0 0 24 24" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6" stroke="#1A1A18" stroke-width="1.6"/><line x1="3" y1="12" x2="21" y2="12" stroke="#1A1A18" stroke-width="1.6"/><line x1="3" y1="18" x2="21" y2="18" stroke="#1A1A18" stroke-width="1.6"/></svg></button>
+      <ul class="navlinks">
+        <li><a data-route="#/originals">Originals</a></li>
+        <li><a data-route="#/prints">Prints</a></li>
+        <li><a data-route="#/about">About</a></li>
+        <li><a data-route="#/contact">Contact</a></li>
+        <li><a data-route="#/faq">FAQs</a></li>
+      </ul>
+      <a data-route="#/" class="logo-badge-link" aria-label="Iulia Nistor Art, home">
+        <img src="logo_2.png" alt="Iulia Nistor Art" class="logo-badge-img">
+      </a>
+      <div class="navicons">
+        <button aria-label="Search" id="searchToggle"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></button>
+      </div>
+    </nav>
+    <div class="search-panel" id="searchPanel">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search originals, prints..." autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="mobile-panel" id="mobilePanel">
+      <a data-route="#/">Home</a>
+      <a data-route="#/originals">Originals →</a>
+      <a data-route="#/prints">Prints</a>
+      <a data-route="#/about">About</a>
+      <a data-route="#/contact">Contact</a>
+      <a data-route="#/faq">FAQs</a>
+    </div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>© 2026 Iulia Nistor Art. Payments processed securely by Stripe.</div>
+    <div class="foot-links">
+      <a href="https://instagram.com/iuliana.artist" target="_blank" rel="noopener">Instagram</a>
+      <a data-route="#/faq">Shipping &amp; returns</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CONTENT — edit everything in this block to update the site.
+   To add a new collection: add it to COLLECTIONS, then tag any
+   piece in ORIGINALS with that collection's slug.
+============================================================ */
+
+var COLLECTIONS = [
+  { slug:'landscapes', name:'Landscapes' },
+  { slug:'still-life', name:'Spirit-Led', desc:'This collection symbolises my own journey, chasing the light that waits ahead. Through layered textures and shifting colour, I try to capture what it feels like to be guided by something greater than myself, held and led, even when the path isn\u2019t clear.' },
+  { slug:'safe-here', name:'Safe Here', desc:'In this series, I paint animals caught alone in sleep, still and unguarded. It\u2019s in that stillness that I find the peace and sensitivity I carry quietly within me. Deep down, this is who I am.' }
+];
+
+var ORIGINALS = [
+  { id:'in-another-life', title:'In Another Life', collection:'safe-here', price:'£320.00', meta:'Oil on canvas · 11 × 14"',
+    images:['in-another-life-4.jpg','in-another-life-1_1.jpg','in-another-life-3_1.jpg'],
+    desc:'A street cat, caught mid-doze beneath the warm Greek sun. Her coat is rough and unkempt, yet she is met with tenderness wherever she goes. She gives nothing to the world, and somehow, the world gives her everything.\n\nI wanted to capture this contrast through oil paint: the clean, almost untouched beauty of the Greek streets against the rawness of the cat herself. I painted the architecture with smooth, controlled layers, keeping the whites and blues crisp and serene, while using more textured, expressive brushwork for her fur, allowing her imperfections to remain visible.\n\nPerhaps that is what makes her beautiful. She has no home, yet she belongs everywhere. Perhaps, in another life, I\u2019ll be a little stray cat too, with no home, but endless love.',
+    bullets:['11 x 14" oil on thin-edge canvas', 'Edges painted', 'Accompanied by a Certificate of Authenticity', 'Free shipping'],
+    shippingNote:'Please allow 1-3 days for your painting to be carefully prepared for shipping.',
+    policyNote:true,
+    sold:false, link:'https://buy.stripe.com/7sY8wQ9Bw2cf6Je25f9fW00' },
+  { id:'coastline-late', title:'Coastline, Late', collection:'landscapes', price:'£980.00', meta:'Oil on board · 50 × 60cm', images:['g4','g8'], desc:'Write about this piece here, what inspired it, how it was made, or the story behind it.', sold:false, link:'' }
+];
+
+// each print offers multiple sizes with their own price — edit freely, add a Stripe link per size once you have one
+var PRINT_SIZES_TEMPLATE = [
+  { label:'A3', price:110, link:'' },
+  { label:'A2', price:150, link:'' },
+  { label:'A1', price:210, link:'' },
+  { label:'A0', price:290, link:'' }
+];
+// optional hand-embellishment add-on, offered on every print
+var EMBELLISHMENTS = [
+  { label:'No', extra:0 },
+  { label:'Embellish', extra:35 }
+];
+
+var PRINTS = [
+  { id:'harbor-study-4', title:'Harbor Study No. 4', meta:'Giclée print', images:['g5','g9'], desc:'The highest quality, archival giclée reproduction of the original. Write more about this print here.', sold:false, sizes:JSON.parse(JSON.stringify(PRINT_SIZES_TEMPLATE)) },
+  { id:'dusk-reworked', title:'Dusk, Reworked', meta:'Giclée print', images:['g6','g2'], desc:'The highest quality, archival giclée reproduction of the original. Write more about this print here.', sold:false, sizes:JSON.parse(JSON.stringify(PRINT_SIZES_TEMPLATE)) },
+  { id:'field-notes-i', title:'Field Notes I', meta:'Giclée print', images:['g7','g10'], desc:'The highest quality, archival giclée reproduction of the original. Write more about this print here.', sold:true, sizes:JSON.parse(JSON.stringify(PRINT_SIZES_TEMPLATE)) },
+  { id:'field-notes-ii', title:'Field Notes II', meta:'Giclée print', images:['g8','g11'], desc:'The highest quality, archival giclée reproduction of the original. Write more about this print here.', sold:false, sizes:JSON.parse(JSON.stringify(PRINT_SIZES_TEMPLATE)) }
+];
+
+var FAQS = [
+  { q:'How do I check out?', a:'You can only purchase one item at a time. When you are ready, simply click the Buy Now button on the product you would like, and you will be taken to a secure checkout page. There, you can pay using Apple Pay, Klarna, or a standard debit or credit card.' },
+  { q:'Can I commission a piece of art?', a:'Yes, while capacity can vary depending on workload, commissions are something I love to offer. Please get in touch with any inquiries via the contact page.' },
+  { q:'What is the difference between a commission, a print and an original?', a:'An original is a one-of-a-kind piece, painted entirely by hand. A print is a high-quality reproduction of an original, made onto paper or canvas, a way to own a version of a piece that might not otherwise be within reach. A commission means hiring me to create a brand new original, made specifically around what you have in mind.' },
+  { q:'What is the commission process like?', a:'Fill out the contact form with your enquiry and I will get back to you with more information on the process and current turnaround time.' },
+  { q:'How long will it take to receive my order?', a:'Please see individual product descriptions for tailored shipping timelines.' },
+  { q:'How is the artwork shipped?', a:'Original paintings are packaged with care to prevent damage in transit. Prints arrive flat in a rigid envelope or rolled in a tube, depending on size; see individual listings for details.' },
+  { q:'Will I be charged customs or import taxes?', a:'This depends on your country\'s import rules. Add your specific policy here once you know how you\'re shipping internationally.' }
+];
+
+var FORMSPREE_ENDPOINT = ''; // paste your Formspree endpoint URL here, e.g. https://formspree.io/f/xxxxxxx
+
+// optional real photos for the 4 tiles on the home page — leave blank to keep the placeholder colour
+var HOME_TILE_IMAGES = { originals:'', prints:'', commissions:'', faq:'' };
+
+// the homepage collection slideshow — swap 'title' and 'images' for a real collection anytime
+var NEW_COLLECTION = { title:'Landscapes', link:'#/originals/landscapes', images:['g2','g6','g9','g12'] };
+
+// homepage event banner — set active:false to hide it entirely
+var UPCOMING_EVENT = {
+  active: true,
+  label: 'Upcoming Event',
+  title: 'Find me at Portobello Road Open Art Market',
+  date: '7 November 2026',
+  desc: '10:00am\u20134:00pm at Tavistock Piazza, Portobello Road \u2014 come by and say hello.'
+};
+
+/* ============================================================
+   APP LOGIC — no need to edit below this line
+============================================================ */
+
+var app = document.getElementById('app');
+var toast = document.getElementById('toast');
+var toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 3400);
+}
+
+function findBy(arr, id){ for(var i=0;i<arr.length;i++){ if(arr[i].id===id) return arr[i]; } return null; }
+function findCollection(slug){ for(var i=0;i<COLLECTIONS.length;i++){ if(COLLECTIONS[i].slug===slug) return COLLECTIONS[i]; } return null; }
+
+function isImagePath(v){
+  return /^(https?:\/\/|\/|\.\/|images\/)/.test(v) || /\.(jpe?g|png|webp|gif|avif)$/i.test(v);
+}
+function mediaFill(v){
+  return isImagePath(v)
+    ? '<img src="' + v + '" alt="" style="width:100%; height:100%; object-fit:cover;">'
+    : '';
+}
+function mediaClass(v){
+  return isImagePath(v) ? '' : ' ' + v;
+}
+
+function displayPrice(p){
+  if(p.sizes){
+    var lowest = p.sizes.reduce(function(min,s){ return s.price < min ? s.price : min; }, p.sizes[0].price);
+    return 'From £' + lowest.toFixed(2);
+  }
+  return p.price;
+}
+
+function pieceCard(p, type){
+  var badge = p.sold ? '<span class="piece-badge">Sold out</span>' : '';
+  return '<div class="piece" data-route="#/' + type + '/' + p.id + '">' +
+    '<div class="piece-img' + mediaClass(p.images[0]) + '">' + mediaFill(p.images[0]) + badge + '</div>' +
+    '<div class="piece-title">' + p.title + '</div>' +
+    '<div class="piece-meta">' + p.meta + '</div>' +
+    '<div class="piece-price">' + displayPrice(p) + '</div>' +
+  '</div>';
+}
+
+function renderHome(){
+  app.innerHTML =
+    '<section class="hero"><img src="hero_3.jpg" alt="Iulia Nistor painting"><div class="hero-content">' +
+      '<h1 class="hero-name">Iulia Nistor</h1>' +
+      '<p class="hero-sub">Hand painted originals; each piece has its own story to tell.</p>' +
+      '<div class="hero-buttons">' +
+        '<a class="hero-pill" data-route="#/prints">Prints</a>' +
+        '<a class="hero-pill" data-route="#/originals">Originals</a>' +
+      '</div>' +
+    '</div></section>' +
+    '<section class="new-collection wrap">' +
+      '<div class="eyebrow">New Collection</div>' +
+      '<h2>' + NEW_COLLECTION.title + '</h2>' +
+      '<div class="collection-slideshow" id="homeSlideshow">' +
+        NEW_COLLECTION.images.map(function(g,i){ return '<div class="slide' + mediaClass(g) + (i===0?' active':'') + '">' + mediaFill(g) + '</div>'; }).join('') +
+        '<div class="slide-nav">' +
+          '<button class="slide-btn" id="homeSlidePrev" aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>' +
+          '<span class="slide-count" id="homeSlideCount">1 / ' + NEW_COLLECTION.images.length + '</span>' +
+          '<button class="slide-btn" id="homeSlideNext" aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>' +
+        '</div>' +
+      '</div>' +
+      '<a class="feature-btn" data-route="' + NEW_COLLECTION.link + '">View Collection</a>' +
+    '</section>' +
+    (UPCOMING_EVENT.active ?
+      '<section class="event-banner">' +
+        '<div class="wrap event-banner-inner">' +
+          '<div class="event-date">' +
+            '<span class="event-day">' + UPCOMING_EVENT.date.split(' ')[0] + '</span>' +
+            '<span class="event-month">' + UPCOMING_EVENT.date.split(' ').slice(1).join(' ') + '</span>' +
+          '</div>' +
+          '<div class="event-text">' +
+            '<div class="eyebrow">' + UPCOMING_EVENT.label + '</div>' +
+            '<h2>' + UPCOMING_EVENT.title + '</h2>' +
+            '<p>' + UPCOMING_EVENT.desc + '</p>' +
+          '</div>' +
+        '</div>' +
+      '</section>' : '');
+
+  var idx = 0;
+  var slideEls = document.querySelectorAll('#homeSlideshow .slide');
+  var countEl = document.getElementById('homeSlideCount');
+  function showHomeSlide(n){
+    idx = (n + slideEls.length) % slideEls.length;
+    slideEls.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    if(countEl) countEl.textContent = (idx+1) + ' / ' + slideEls.length;
+  }
+  var prevBtn = document.getElementById('homeSlidePrev');
+  var nextBtn = document.getElementById('homeSlideNext');
+  if(prevBtn) prevBtn.addEventListener('click', function(){ showHomeSlide(idx-1); });
+  if(nextBtn) nextBtn.addEventListener('click', function(){ showHomeSlide(idx+1); });
+}
+
+function renderOriginalsLanding(){
+  var html = '<div class="wrap"><div class="page-head"><div class="eyebrow">Shop</div><h1>Originals</h1>' +
+    '<p class="page-sub">One-of-one oil paintings, browsable by collection, or see everything in one place.</p></div>' +
+    '<div class="tiles">' +
+    '<div class="tile" data-route="#/originals/all"><div class="tile-img g4"></div><div class="tile-name">All</div><div class="tile-sub">' + ORIGINALS.length + ' pieces</div></div>';
+  COLLECTIONS.forEach(function(c){
+    var count = ORIGINALS.filter(function(p){ return p.collection === c.slug; }).length;
+    html += '<div class="tile" data-route="#/originals/' + c.slug + '"><div class="tile-img g7"></div><div class="tile-name">' + c.name + '</div><div class="tile-sub">' + count + ' pieces</div></div>';
+  });
+  html += '</div></div>';
+  app.innerHTML = html;
+}
+
+function renderOriginalsGrid(collectionSlug){
+  var list = ORIGINALS;
+  var title = 'All originals';
+  var sub = 'Every one-of-one painting currently available.';
+  if(collectionSlug && collectionSlug !== 'all'){
+    var c = findCollection(collectionSlug);
+    list = ORIGINALS.filter(function(p){ return p.collection === collectionSlug; });
+    title = c ? c.name : 'Collection';
+    sub = (c && c.desc) ? c.desc : ('Part of the ' + title + ' collection.');
+  }
+  var cards = list.map(function(p){ return pieceCard(p, 'product'); }).join('');
+  app.innerHTML =
+    '<div class="wrap">' +
+    '<div class="page-head"><div class="eyebrow">Originals</div><h1>' + title + '</h1><p class="page-sub">' + sub + '</p></div>' +
+    '<a class="back-link" data-route="#/originals">&larr; All collections</a>' +
+    '<div class="row">' + (cards || '<p style="color:var(--ink-soft); padding:40px 0;">Nothing here yet.</p>') + '</div>' +
+    '</div>';
+}
+
+function renderPrints(){
+  var cards = PRINTS.map(function(p){ return pieceCard(p, 'print'); }).join('');
+  app.innerHTML =
+    '<div class="wrap">' +
+    '<div class="page-head"><h1>Prints</h1><p class="page-sub">The highest quality, archival giclee print, professionally photographed.</p></div>' +
+    '<div class="row">' + cards + '</div>' +
+    '</div>';
+}
+
+function buildAlsoLike(currentType, currentId){
+  var pool = ORIGINALS.map(function(o){ return { item:o, type:'original' }; })
+    .concat(PRINTS.map(function(pr){ return { item:pr, type:'print' }; }))
+    .filter(function(entry){ return !(entry.type === currentType && entry.item.id === currentId); });
+  var picks = pool.slice(0, 4);
+  if(!picks.length) return '';
+  return '<section class="also-like">' +
+    '<h2 class="also-like-heading">You may also like</h2>' +
+    '<div class="row also-like-row">' + picks.map(function(entry){ return pieceCard(entry.item, entry.type); }).join('') + '</div>' +
+  '</section>';
+}
+
+function renderProduct(type, id){
+  var list = type === 'print' ? PRINTS : ORIGINALS;
+  var p = findBy(list, id);
+  var backRoute = type === 'print' ? '#/prints' : '#/originals/all';
+  if(!p){
+    app.innerHTML = '<div class="wrap"><div class="page-head"><h1>Not found</h1></div><a class="back-link" data-route="' + backRoute + '">&larr; Back</a></div>';
+    return;
+  }
+  var slides = p.images.map(function(g,i){ return '<div class="slide' + mediaClass(g) + (i===0?' active':'') + '" data-i="' + i + '">' + mediaFill(g) + '</div>'; }).join('');
+
+  var BUY_LABEL = 'Buy Now';
+  var priceBlockHtml, buyHtml;
+
+  if(type === 'print' && !p.sold){
+    priceBlockHtml =
+      '<div class="product-price" id="printPrice">£' + p.sizes[0].price.toFixed(2) + ' GBP</div>' +
+      '<div class="print-option"><label>Size</label>' +
+        '<select id="sizeSelect" class="print-select">' +
+          p.sizes.map(function(s,i){ return '<option value="' + i + '">' + s.label + ' \u2014 \u00a3' + s.price.toFixed(2) + '</option>'; }).join('') +
+        '</select>' +
+      '</div>' +
+      '<div class="print-option"><label>Enhance with hand embellishment (+from £' + EMBELLISHMENTS[1].extra.toFixed(2) + ')</label>' +
+        '<div class="embellish-row" id="embellishRow">' +
+          EMBELLISHMENTS.map(function(e,i){ return '<button type="button" class="embellish-swatch' + (i===0?' active':'') + '" data-i="' + i + '">' + e.label + '</button>'; }).join('') +
+        '</div>' +
+        '<a class="info-link" data-route="#/embellishment">More information on embellishment</a>' +
+      '</div>';
+    buyHtml =
+      '<a class="buy-btn" id="printBuyBtn" href="#" data-buy="1" data-link="" data-title="' + p.title + '" target="_blank" rel="noopener">' + BUY_LABEL + '</a>' +
+      '<div class="buy-note" id="printBuyNote">Apple Pay, Google Pay &amp; card accepted at checkout</div>';
+  } else {
+    priceBlockHtml = '<div class="product-price">' + displayPrice(p) + ' GBP</div>';
+    buyHtml = p.sold
+      ? '<div class="sold-btn">Sold out</div>'
+      : '<a class="buy-btn" href="' + (p.link || '#') + '" data-buy="1" data-link="' + (p.link || '') + '" data-title="' + p.title + '" target="_blank" rel="noopener">' + BUY_LABEL + '</a>' +
+        '<div class="buy-note">Apple Pay, Google Pay &amp; card accepted at checkout</div>';
+  }
+
+  var metaExtra = type === 'original'
+    ? '<div>Ready to hang: <span>yes</span></div><div>Certificate of authenticity: <span>included</span></div><div>Returns: <span>add your policy for original works here</span></div>'
+    : '<div>Frame: <span>shown for display purposes only; not included</span></div><div>Packaging: <span>Hand-embellished prints are shipped flat to protect the finish. Standard prints are carefully rolled in acid-free tissue paper and posted in a protective tube.</span></div>';
+  var bulletsHtml = (p.bullets && p.bullets.length) ?
+    '<ul class="product-bullets">' + p.bullets.map(function(b){ return '<li>' + b + '</li>'; }).join('') + '</ul>' : '';
+  var shippingNoteHtml = p.shippingNote ? '<p class="product-policy-note">' + p.shippingNote + '</p>' : '';
+  var policyHtml = p.policyNote ?
+    '<p class="product-policy-note">Please read the description carefully. Due to the unique nature of original artwork, there is no option for returns or refunds for change of mind. Please see our refund policy for further info.</p><p class="product-policy-note">When you are ready to purchase, simply press the Buy Now button above. You will be taken to a secure checkout page to complete your order.</p>' : '';
+  var sizeLabel = p.meta.split('\u00b7').pop().trim();
+  var iconsHtml = type === 'original' ? (
+    '<div class="product-icons">' +
+      '<div class="product-icon"><svg viewBox="0 0 24 24"><path d="M3 16l5-5 3 3 4-4 6 6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 3h18v6H3z" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(-45 12 12)"/></svg><span>' + sizeLabel + '</span></div>' +
+      '<div class="product-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Certificate of<br>Authenticity</span></div>' +
+      '<div class="product-icon"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="12" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M14 11h4l3 3v2h-7z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="18" r="1.6" fill="currentColor"/><circle cx="17" cy="18" r="1.6" fill="currentColor"/></svg><span>Free Shipping</span></div>' +
+    '</div>'
+  ) : '';
+
+  app.innerHTML =
+    '<div class="wrap">' +
+    '<a class="back-link" data-route="' + backRoute + '">&larr; Back</a>' +
+    '<div class="product">' +
+      '<div class="slideshow" id="slideshow">' + slides +
+        (p.images.length > 1 ?
+          '<div class="slide-nav">' +
+          '<button class="slide-btn" id="slidePrev" aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>' +
+          '<span class="slide-count" id="slideCount">1 / ' + p.images.length + '</span>' +
+          '<button class="slide-btn" id="slideNext" aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>' +
+          '</div>' : '') +
+      '</div>' +
+      '<div class="product-info">' +
+        '<div class="eyebrow">Iulia Nistor Art</div>' +
+        '<div class="product-title">' + p.title + '</div>' +
+        priceBlockHtml +
+        '<div class="product-shipnote">Shipping calculated at checkout.</div>' +
+        iconsHtml +
+        buyHtml +
+        '<p class="product-desc">' + p.desc + '</p>' +
+        bulletsHtml +
+        shippingNoteHtml +
+        policyHtml +
+        (p.bullets ? '' : '<div class="product-meta"><div>' + p.meta + '</div>' + metaExtra + '</div>') +
+        (type === 'print' ? '<p class="one-item-note">Please note: only one item can be purchased per order. If you would like more than one piece, please place a separate order for each.</p><p class="one-item-note">When you are ready to purchase, simply press the Buy Now button above. You will be taken to a secure checkout page to complete your order.</p>' : '') +
+      '</div>' +
+    '</div>' +
+    buildAlsoLike(type, id) +
+    '</div>';
+
+  if(type === 'print' && !p.sold){
+    var sizeSelect = document.getElementById('sizeSelect');
+    var embellishBtns = document.querySelectorAll('#embellishRow .embellish-swatch');
+    var priceEl = document.getElementById('printPrice');
+    var buyBtn = document.getElementById('printBuyBtn');
+    var buyNote = document.getElementById('printBuyNote');
+    var embIdx = 0;
+
+    function updatePrint(){
+      var size = p.sizes[sizeSelect.value];
+      var emb = EMBELLISHMENTS[embIdx];
+      var total = size.price + emb.extra;
+      priceEl.textContent = '£' + total.toFixed(2) + ' GBP';
+      buyBtn.href = size.link || '#';
+      buyBtn.setAttribute('data-link', size.link || '');
+      buyBtn.setAttribute('data-title', p.title + (emb.extra > 0 ? ' (' + emb.label + ' embellishment)' : ''));
+    }
+    sizeSelect.addEventListener('change', updatePrint);
+    embellishBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        embellishBtns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        embIdx = parseInt(btn.getAttribute('data-i'), 10);
+        updatePrint();
+      });
+    });
+    updatePrint();
+  }
+
+  var idx = 0;
+  var slideEls = app.querySelectorAll('.slide');
+  var countEl = document.getElementById('slideCount');
+  function showSlide(n){
+    idx = (n + slideEls.length) % slideEls.length;
+    slideEls.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+    if(countEl) countEl.textContent = (idx+1) + ' / ' + slideEls.length;
+  }
+  var prevBtn = document.getElementById('slidePrev');
+  var nextBtn = document.getElementById('slideNext');
+  if(prevBtn) prevBtn.addEventListener('click', function(){ showSlide(idx-1); });
+  if(nextBtn) nextBtn.addEventListener('click', function(){ showSlide(idx+1); });
+
+  var slideshowEl = document.getElementById('slideshow');
+  if(slideshowEl && slideEls.length > 1){
+    var touchStartX = 0, touchEndX = 0, swipeActive = false;
+    slideshowEl.addEventListener('touchstart', function(e){
+      if(e.touches.length === 1){
+        swipeActive = true;
+        touchStartX = e.touches[0].screenX;
+      } else {
+        swipeActive = false;
+      }
+    }, { passive: true });
+    slideshowEl.addEventListener('touchmove', function(e){
+      if(e.touches.length > 1) swipeActive = false;
+    }, { passive: true });
+    slideshowEl.addEventListener('touchend', function(e){
+      if(!swipeActive) return;
+      swipeActive = false;
+      touchEndX = e.changedTouches[0].screenX;
+      var diff = touchStartX - touchEndX;
+      if(Math.abs(diff) > 40){
+        if(diff > 0) showSlide(idx+1);
+        else showSlide(idx-1);
+      }
+    }, { passive: true });
+  }
+}
+
+function renderContact(){
+  app.innerHTML =
+    '<div class="wrap">' +
+    '<div class="page-head"><h1>Contact me</h1>' +
+    '<p class="page-sub">Commission work is something I love to offer. Spaces are limited and turnaround time varies. Fill out the form below and I\'ll get back to you with more information.</p></div>' +
+    '<form class="form" id="contactForm">' +
+      '<input type="text" name="name" placeholder="Name" required>' +
+      '<input type="email" name="email" placeholder="Email" required>' +
+      '<input type="tel" name="phone" placeholder="Phone number">' +
+      '<textarea name="comment" placeholder="Tell me about the piece you have in mind" required></textarea>' +
+      '<button type="submit">Send</button>' +
+      '<p class="form-note" id="formNote"></p>' +
+    '</form></div>';
+
+  var form = document.getElementById('contactForm');
+  var note = document.getElementById('formNote');
+  if(!FORMSPREE_ENDPOINT){
+    note.textContent = 'This form isn\'t connected yet. Add your Formspree endpoint in the code to start receiving enquiries.';
+  }
+  form.addEventListener('submit', function(e){
+    if(!FORMSPREE_ENDPOINT){
+      e.preventDefault();
+      showToast('Connect a Formspree endpoint to enable this form.');
+      return;
+    }
+    e.preventDefault();
+    var data = new FormData(form);
+    fetch(FORMSPREE_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' } })
+      .then(function(res){
+        if(res.ok){ note.textContent = 'Thanks, your message has been sent.'; form.reset(); }
+        else{ note.textContent = 'Something went wrong. Please try again or email directly.'; }
+      })
+      .catch(function(){ note.textContent = 'Something went wrong. Please try again or email directly.'; });
+  });
+}
+
+function renderAbout(){
+  app.innerHTML =
+    '<img class="about-photo" src="about_1.jpg" alt="Iulia Nistor">' +
+    '<div class="about-body">' +
+      '<div class="about-heading">About</div>' +
+      '<p>My name is Iulia Nistor, and I\'m a fine arts artist based in London.</p>' +
+      '<p>I work primarily in oils, though I love bringing my paintings to life with different textures and mediums along the way, whatever a piece asks for to feel complete.</p>' +
+      '<p>I\'ve been creative for as long as I can remember. There\'s a saying that the universe always pulls you back toward what you loved as a child, and mine was simple: sitting quietly with a brush and my own thoughts.</p>' +
+      '<p>What I\'m really chasing in my work is a feeling of nostalgia, places and people my soul longs to see, held in colour and texture. I want my pieces to feel ethereal, something that quietly warms the soul.</p>' +
+      '<p>Early on in my journey, I struggled with leaning too heavily into realism, holding back from the abstract. Letting go of that was one of the best things I\'ve done; I\'ve learned that abstraction lets me express what I feel far more deeply than precision ever could.</p>' +
+      '<p>I hope my pieces light up something in your soul, the same way painting them lights up mine.</p>' +
+    '</div>';
+}
+
+function renderEmbellishment(){
+  app.innerHTML =
+    '<div class="wrap"><div class="page-head"><h1>What is hand embellishment?</h1></div>' +
+    '<div class="about-body" style="margin:0; padding-left:0; padding-right:0;">' +
+      '<p>Hand embellishment is when I return to a printed piece after it has been produced and add small touches of paint or texture by hand, directly onto the print.</p>' +
+      '<p>Once your print has been professionally reproduced from the original painting, I go back over selected areas with paint or subtle texture \u2014 quiet, considered details meant to catch the light rather than change the piece\u2019s overall feel.</p>' +
+      '<p>Because each one is finished by hand in the studio, no two embellished prints are ever quite the same. Small variations are part of the process, not a flaw, a sign that your piece was worked on personally rather than mass-produced.</p>' +
+      '<p>If you\u2019re drawn to something with a bit more depth and warmth than a standard print, hand embellishment might be worth choosing.</p>' +
+    '</div>' +
+    '<a class="back-link" data-route="#/prints">&larr; Back to Prints</a>' +
+    '</div>';
+}
+
+function renderFaq(){
+  var items = FAQS.map(function(f){
+    return '<details class="faq-item"><summary>' + f.q + '</summary><p>' + f.a + '</p></details>';
+  }).join('');
+  app.innerHTML = '<div class="wrap"><div class="page-head"><h1>FAQs</h1></div><div class="faq-list">' + items + '</div></div>';
+}
+
+/* ---------- router ---------- */
+function parseRoute(hash){
+  var parts = (hash || '#/').replace(/^#\//,'').split('/').filter(Boolean);
+  return parts;
+}
+function route(){
+  var parts = parseRoute(location.hash);
+  document.getElementById('mobilePanel').classList.remove('open');
+  document.querySelectorAll('.navlinks a').forEach(function(a){ a.classList.remove('active'); });
+
+  if(parts.length === 0){ renderHome(); return; }
+  if(parts[0] === 'originals'){
+    document.querySelector('.navlinks a[data-route="#/originals"]').classList.add('active');
+    if(parts[1]){ renderOriginalsGrid(parts[1]); } else { renderOriginalsLanding(); }
+    return;
+  }
+  if(parts[0] === 'prints'){
+    document.querySelector('.navlinks a[data-route="#/prints"]').classList.add('active');
+    renderPrints(); return;
+  }
+  if(parts[0] === 'product' && parts[1]){ renderProduct('original', parts[1]); return; }
+  if(parts[0] === 'print' && parts[1]){ renderProduct('print', parts[1]); return; }
+  if(parts[0] === 'about'){
+    document.querySelector('.navlinks a[data-route="#/about"]').classList.add('active');
+    renderAbout(); return;
+  }
+  if(parts[0] === 'contact'){
+    document.querySelector('.navlinks a[data-route="#/contact"]').classList.add('active');
+    renderContact(); return;
+  }
+  if(parts[0] === 'embellishment'){ renderEmbellishment(); return; }
+  if(parts[0] === 'faq'){
+    document.querySelector('.navlinks a[data-route="#/faq"]').classList.add('active');
+    renderFaq(); return;
+  }
+  renderHome();
+}
+
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-route]');
+  if(el){
+    location.hash = el.getAttribute('data-route');
+    window.scrollTo(0,0);
+    var sp = document.getElementById('searchPanel');
+    if(sp) sp.classList.remove('open');
+  }
+
+  var buy = e.target.closest('[data-buy]');
+  if(buy){
+    var link = buy.getAttribute('data-link');
+    if(!link){
+      e.preventDefault();
+      showToast('Add a Stripe Payment Link for "' + buy.getAttribute('data-title') + '" to enable checkout.');
+    }
+  }
+});
+
+document.getElementById('navToggle').addEventListener('click', function(){
+  document.getElementById('mobilePanel').classList.toggle('open');
+});
+
+/* ---------- search ---------- */
+var searchToggle = document.getElementById('searchToggle');
+var searchPanel = document.getElementById('searchPanel');
+var searchInput = document.getElementById('searchInput');
+var searchResults = document.getElementById('searchResults');
+
+function searchIndex(){
+  var items = [];
+  ORIGINALS.forEach(function(o){ items.push({ item:o, type:'original', label:'Original' }); });
+  PRINTS.forEach(function(pr){ items.push({ item:pr, type:'print', label:'Print' }); });
+  return items;
+}
+
+function renderSearchResults(query){
+  var q = query.trim().toLowerCase();
+  if(!q){ searchResults.innerHTML = ''; return; }
+  var matches = searchIndex().filter(function(entry){
+    return entry.item.title.toLowerCase().indexOf(q) !== -1 || entry.label.toLowerCase().indexOf(q) !== -1;
+  });
+  if(!matches.length){
+    searchResults.innerHTML = '<div class="search-empty">No results for \u201c' + query + '\u201d.</div>';
+    return;
+  }
+  searchResults.innerHTML = matches.map(function(entry){
+    var p = entry.item;
+    return '<div class="search-result" data-route="#/' + entry.type + '/' + p.id + '">' +
+      '<div class="search-result-img' + mediaClass(p.images[0]) + '">' + mediaFill(p.images[0]) + '</div>' +
+      '<div class="search-result-text"><span class="search-result-title">' + p.title + '</span><span class="search-result-meta">' + entry.label + '</span></div>' +
+    '</div>';
+  }).join('');
+}
+
+if(searchToggle){
+  searchToggle.addEventListener('click', function(){
+    searchPanel.classList.toggle('open');
+    if(searchPanel.classList.contains('open')){
+      searchInput.value = '';
+      searchResults.innerHTML = '';
+      setTimeout(function(){ searchInput.focus(); }, 50);
+    }
+  });
+}
+if(searchInput){
+  searchInput.addEventListener('input', function(){ renderSearchResults(searchInput.value); });
+}
+document.addEventListener('click', function(e){
+  if(searchPanel && searchPanel.classList.contains('open') && !searchPanel.contains(e.target) && e.target !== searchToggle && !searchToggle.contains(e.target)){
+    searchPanel.classList.remove('open');
+  }
+});
+
+window.addEventListener('hashchange', route);
+route();
+</script>
+
+</body>
+</html>
